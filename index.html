@@ -303,11 +303,11 @@ body {
 /* Temas con logos en tarjetas */
 .tema-egida, .tema-labase, .tema-finacorp { border-radius:24px; overflow:hidden; width:560px; }
 .tema-egida { background:#08080f; color:#fff; }
-.tema-labase { background:#0a0a0a; color:#fff; }
+.tema-labase { background:#f5c800; color:#1a1a1a; }
 .tema-finacorp { background:#fff; color:#1a1a2e; }
 
 .tema-egida .infografia-header { background:linear-gradient(160deg,#08080f 0%,#111121 100%); padding:32px 28px 24px; text-align:center; border-bottom:1px solid rgba(212,175,55,0.2); }
-.tema-labase .infografia-header { background:#000; padding:32px 28px 24px; text-align:center; border-bottom:1px solid rgba(255,140,0,0.2); }
+.tema-labase .infografia-header { background:linear-gradient(160deg,#f5c800 0%,#e6b800 100%); padding:32px 28px 24px; text-align:center; border-bottom:2px solid rgba(0,0,0,0.12); }
 .tema-finacorp .infografia-header { background:linear-gradient(160deg,#0d47a1 0%,#1a73e8 60%,#2196f3 100%); padding:32px 28px 24px; text-align:center; }
 
 .tema-egida .logo-empresa, .tema-labase .logo-empresa { margin:0 auto 16px; width:110px; height:90px; border-radius:0; display:flex; align-items:center; justify-content:center; overflow:visible; background:transparent; }
@@ -315,17 +315,19 @@ body {
 .tema-egida .logo-empresa img, .tema-labase .logo-empresa img { max-width:110px; max-height:90px; object-fit:contain; background:transparent; }
 .tema-finacorp .logo-empresa img { max-width:180px; max-height:70px; object-fit:contain; background:transparent; }
 
-.tema-egida h2, .tema-labase h2 { color:#fff; font-weight:800; font-size:1.35rem; }
+.tema-egida h2 { color:#fff; font-weight:800; font-size:1.35rem; }
+.tema-labase h2 { color:#1a1a1a; font-weight:900; font-size:1.35rem; }
 .tema-finacorp h2 { color:#fff; font-weight:800; font-size:1.35rem; }
 .tema-egida .subtitulo { color:#d4af37; font-size:0.67rem; text-transform:uppercase; letter-spacing:2.5px; margin-top:7px; }
-.tema-labase .subtitulo { color:#ff8c00; font-size:0.67rem; text-transform:uppercase; letter-spacing:2.5px; margin-top:7px; }
+.tema-labase .subtitulo { color:#333; font-size:0.67rem; text-transform:uppercase; letter-spacing:2.5px; margin-top:7px; }
 .tema-finacorp .subtitulo { color:rgba(255,255,255,0.75); font-size:0.67rem; text-transform:uppercase; letter-spacing:2px; margin-top:7px; }
 
-.tema-egida .info-body, .tema-labase .info-body { padding:24px 26px; }
+.tema-egida .info-body { padding:24px 26px; }
+.tema-labase .info-body { padding:24px 26px; background:#fff8dc; }
 .tema-finacorp .info-body { padding:24px 26px; background:#fff; }
 
 .tema-egida .cuentas-titulo { display:flex; align-items:center; gap:8px; color:#d4af37; font-weight:700; font-size:0.73rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:16px; padding-bottom:9px; border-bottom:1px solid rgba(212,175,55,0.15); }
-.tema-labase .cuentas-titulo { display:flex; align-items:center; gap:8px; color:#ff8c00; font-weight:700; font-size:0.73rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:16px; padding-bottom:9px; border-bottom:1px solid rgba(255,140,0,0.15); }
+.tema-labase .cuentas-titulo { display:flex; align-items:center; gap:8px; color:#1a1a1a; font-weight:700; font-size:0.73rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:16px; padding-bottom:9px; border-bottom:2px solid rgba(0,0,0,0.15); }
 .tema-finacorp .cuentas-titulo { display:flex; align-items:center; gap:8px; color:#1a73e8; font-weight:700; font-size:0.73rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; padding-bottom:9px; border-bottom:2px solid #e8f0fd; }
 
 .tema-egida .cuenta-card, .tema-labase .cuenta-card, .tema-finacorp .cuenta-card {
@@ -333,14 +335,14 @@ body {
   display: flex; gap: 14px; align-items: center;
 }
 .tema-egida .cuenta-card { background:linear-gradient(135deg,#111121,#0e0e1c); border:1px solid rgba(212,175,55,0.12); }
-.tema-labase .cuenta-card { background:#111; border:1px solid rgba(255,140,0,0.1); }
+.tema-labase .cuenta-card { background:#fff; border:1px solid rgba(0,0,0,0.1); }
 .tema-finacorp .cuenta-card { background:#f8faff; border:1px solid #ddeafc; }
 
 .tema-egida .cuenta-card::before, .tema-labase .cuenta-card::before, .tema-finacorp .cuenta-card::before {
   content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
 }
 .tema-egida .cuenta-card::before { background:linear-gradient(180deg,#d4af37,#b8963e); }
-.tema-labase .cuenta-card::before { background:linear-gradient(180deg,#ff8c00,#cc7000); }
+.tema-labase .cuenta-card::before { background:linear-gradient(180deg,#1a1a1a,#333); }
 .tema-finacorp .cuenta-card::before { background:linear-gradient(180deg,#1a73e8,#0d47a1); }
 
 .tema-egida .cuenta-card img, .tema-labase .cuenta-card img, .tema-finacorp .cuenta-card img {
@@ -348,27 +350,29 @@ body {
 }
 .tema-egida .cuenta-info, .tema-labase .cuenta-info, .tema-finacorp .cuenta-info { flex:1; }
 .tema-egida .cuenta-banco { color:#d4af37; font-weight:800; font-size:0.86rem; margin-bottom:6px; }
-.tema-labase .cuenta-banco { color:#ff8c00; font-weight:800; font-size:0.86rem; margin-bottom:6px; }
+.tema-labase .cuenta-banco { color:#1a1a1a; font-weight:800; font-size:0.86rem; margin-bottom:6px; }
 .tema-finacorp .cuenta-banco { color:#1a73e8; font-weight:800; font-size:0.86rem; margin-bottom:6px; }
 
 .tema-egida .cuenta-detalle, .tema-labase .cuenta-detalle, .tema-finacorp .cuenta-detalle {
   font-size:0.66rem; display:grid; grid-template-columns:1fr 1fr; gap:5px;
 }
-.tema-egida .cuenta-detalle span, .tema-labase .cuenta-detalle span { background:rgba(255,255,255,0.04); padding:5px 8px; border-radius:7px; }
+.tema-egida .cuenta-detalle span { background:rgba(255,255,255,0.04); padding:5px 8px; border-radius:7px; }
+.tema-labase .cuenta-detalle span { background:rgba(0,0,0,0.04); padding:5px 8px; border-radius:7px; color:#1a1a1a; }
 .tema-finacorp .cuenta-detalle span { background:rgba(26,115,232,0.05); padding:5px 8px; border-radius:7px; }
-.tema-egida .cuenta-detalle span strong, .tema-labase .cuenta-detalle span strong { color:#a0a0b8; display:block; font-size:0.58rem; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:1px; }
+.tema-egida .cuenta-detalle span strong { color:#a0a0b8; display:block; font-size:0.58rem; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:1px; }
+.tema-labase .cuenta-detalle span strong { color:#666; display:block; font-size:0.58rem; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:1px; }
 .tema-finacorp .cuenta-detalle span strong { color:#1a73e8; display:block; font-size:0.58rem; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:1px; }
 
 .tema-egida .obs-tag { color:#d4af37; font-size:0.63rem; padding:4px 9px; background:rgba(212,175,55,0.08); border-radius:7px; margin-top:7px; border-left:2px solid #d4af37; }
-.tema-labase .obs-tag { color:#ff8c00; font-size:0.63rem; padding:4px 9px; background:rgba(255,140,0,0.08); border-radius:7px; margin-top:7px; border-left:2px solid #ff8c00; }
+.tema-labase .obs-tag { color:#1a1a1a; font-size:0.63rem; padding:4px 9px; background:rgba(0,0,0,0.07); border-radius:7px; margin-top:7px; border-left:2px solid #1a1a1a; }
 .tema-finacorp .obs-tag { color:#1a73e8; font-size:0.63rem; padding:4px 9px; background:rgba(26,115,232,0.07); border-radius:7px; margin-top:7px; border-left:2px solid #1a73e8; }
 
 .tema-egida .infografia-footer { background:#050508; text-align:center; padding:12px; color:#44445a; font-size:0.6rem; border-top:1px solid rgba(212,175,55,0.1); }
-.tema-labase .infografia-footer { background:#050505; text-align:center; padding:12px; color:#444; font-size:0.6rem; border-top:1px solid rgba(255,140,0,0.1); }
+.tema-labase .infografia-footer { background:#e6b800; text-align:center; padding:12px; color:#333; font-size:0.6rem; border-top:1px solid rgba(0,0,0,0.1); }
 .tema-finacorp .infografia-footer { background:#f0f4fe; text-align:center; padding:12px; color:#8b9bb8; font-size:0.6rem; border-top:1px solid #ddeafc; }
 
 .tema-egida .cuenta-titular-label { color: #e2e8f0; font-size: 0.72rem; font-weight: 600; margin-bottom: 6px; opacity: 0.85; }
-.tema-labase .cuenta-titular-label { color: #e2e8f0; font-size: 0.72rem; font-weight: 600; margin-bottom: 6px; opacity: 0.85; }
+.tema-labase .cuenta-titular-label { color: #333; font-size: 0.72rem; font-weight: 600; margin-bottom: 6px; opacity: 0.85; }
 .tema-finacorp .cuenta-titular-label { color: #334155; font-size: 0.72rem; font-weight: 600; margin-bottom: 6px; }
 </style>
 </head>
@@ -486,7 +490,7 @@ function getBankLogo(bankName) {
 
 // ======================= GESTIÓN DE USUARIOS (Google Sheets) =======================
 // 🔧 REEMPLAZA esta URL con la URL de tu Web App de Apps Script
-const GAS_URL = "https://script.google.com/macros/s/AKfycbwc_JPgySSTfoP7FxBd50Oa5m9WNRRrEZtRHuyBtvxox5kMZ68m8xJwvgvAuGFAZSfA/exec";
+const GAS_URL = "https://script.google.com/macros/s/AKfycbxKE4MpJjDkJBkiub1-t8xgHseG19o0TeFx0aw7Uhqr8YiL2Qje8ZE2XNdE5LrmZZor/exec";
 
 let currentUser = null;
 let usersCache  = [];   // caché local para la tabla
