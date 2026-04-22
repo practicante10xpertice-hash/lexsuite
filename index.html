@@ -563,13 +563,9 @@ function saveBancosCustom() {
 
 function getBankLogoCustom(nombre) {
   const k = nombre.toLowerCase().trim();
-  const kSinEspacios = k.replace(/\s+/g, '');
   const custom = bancosCustom.find(b => {
-    // Buscar por nombre exacto, por key sin espacios, o por coincidencia parcial
-    return k === b.nombre.toLowerCase() ||
-           k.includes(b.nombre.toLowerCase()) ||
-           kSinEspacios.includes(b.key) ||
-           b.key.includes(kSinEspacios);
+    const bNombre = b.nombre.toLowerCase().trim();
+    return k === bNombre || k.includes(bNombre) || bNombre.includes(k);
   });
   return custom ? custom.logo : null;
 }
@@ -818,10 +814,18 @@ function doLogout() {
 }
 
 // ======================= EDITOR DE CUENTAS =======================
+function getBancosDatalist() {
+  // Bancos predefinidos + personalizados para el datalist
+  const predefinidos = ["BCP", "Interbank", "Yape", "Caja Huancayo", "BBVA", "Scotiabank", "BanBif", "Banco de la Nacion", "Mibanco", "Pichincha"];
+  const custom = bancosCustom.map(b => b.nombre);
+  const todos = [...new Set([...predefinidos, ...custom])];
+  return `<datalist id="bancosSugeridos">${todos.map(b => `<option value="${b}">`).join('')}</datalist>`;
+}
+
 function renderCuentasEditor() {
   const empresa = empresasState[empresaActual];
   const container = document.getElementById("cuentasEditor");
-  container.innerHTML = "";
+  container.innerHTML = getBancosDatalist();
 
   empresa.cuentas.forEach((c, idx) => {
     const div = document.createElement("div");
@@ -831,7 +835,7 @@ function renderCuentasEditor() {
       <div class="grid-cuenta-editor">
         <div class="field-small">
           <label>Banco</label>
-          <input type="text" data-field="banco" data-idx="${idx}" value="${escapeHtml(c.banco)}">
+          <input type="text" list="bancosSugeridos" data-field="banco" data-idx="${idx}" value="${escapeHtml(c.banco)}" placeholder="Escribe o elige un banco">
         </div>
         <div class="field-small">
           <label>Tipo</label>
