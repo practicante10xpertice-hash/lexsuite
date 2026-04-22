@@ -563,7 +563,14 @@ function saveBancosCustom() {
 
 function getBankLogoCustom(nombre) {
   const k = nombre.toLowerCase().trim();
-  const custom = bancosCustom.find(b => k.includes(b.key));
+  const kSinEspacios = k.replace(/\s+/g, '');
+  const custom = bancosCustom.find(b => {
+    // Buscar por nombre exacto, por key sin espacios, o por coincidencia parcial
+    return k === b.nombre.toLowerCase() ||
+           k.includes(b.nombre.toLowerCase()) ||
+           kSinEspacios.includes(b.key) ||
+           b.key.includes(kSinEspacios);
+  });
   return custom ? custom.logo : null;
 }
 
