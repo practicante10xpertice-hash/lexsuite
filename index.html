@@ -562,12 +562,30 @@ function saveBancosCustom() {
 }
 
 function getBankLogoCustom(nombre) {
+  if (!nombre || !bancosCustom.length) return null;
   const k = nombre.toLowerCase().trim();
-  const custom = bancosCustom.find(b => {
-    const bNombre = b.nombre.toLowerCase().trim();
-    return k === bNombre || k.includes(bNombre) || bNombre.includes(k);
+
+  // 1. Coincidencia exacta
+  let found = bancosCustom.find(b => b.nombre.toLowerCase().trim() === k);
+  if (found) return found.logo;
+
+  // 2. El nombre del campo contiene el nombre registrado (o viceversa)
+  found = bancosCustom.find(b => {
+    const bNom = b.nombre.toLowerCase().trim();
+    return k.includes(bNom) || bNom.includes(k);
   });
-  return custom ? custom.logo : null;
+  if (found) return found.logo;
+
+  // 3. Coincidencia por palabras: si todas las palabras del nombre registrado
+  //    están presentes en lo que se escribe (o viceversa)
+  found = bancosCustom.find(b => {
+    const palabrasRegistradas = b.nombre.toLowerCase().trim().split(/\s+/).filter(p => p.length > 2);
+    const palabrasEscritas    = k.split(/\s+/).filter(p => p.length > 2);
+    if (!palabrasRegistradas.length || !palabrasEscritas.length) return false;
+    return palabrasRegistradas.every(p => palabrasEscritas.some(e => e.includes(p) || p.includes(e))) ||
+           palabrasEscritas.every(p => palabrasRegistradas.some(r => r.includes(p) || p.includes(r)));
+  });
+  return found ? found.logo : null;
 }
 
 function renderBancosCustomList() {
@@ -866,15 +884,17 @@ function renderCuentasEditor() {
     container.appendChild(div);
   });
 
-  // Listeners inputs
+  // Listeners inputs — actualiza infografía en tiempo real
   container.querySelectorAll("input, textarea").forEach(el => {
-    el.addEventListener("input", (e) => {
+    const actualizar = (e) => {
       const idx = parseInt(e.target.dataset.idx);
       const field = e.target.dataset.field;
       empresasState[empresaActual].cuentas[idx][field] = e.target.value;
       renderInfografia();
       updateStats();
-    });
+    };
+    el.addEventListener("input",  actualizar);
+    el.addEventListener("change", actualizar); // captura selección del datalist
   });
 
   // Listeners eliminar
