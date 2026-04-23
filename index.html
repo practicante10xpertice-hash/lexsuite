@@ -94,96 +94,147 @@ body {
   background: rgba(255,255,255,0.03);
   border: 1px solid rgba(255,255,255,0.08);
   border-radius: 24px;
-  padding: 24px;
+  padding: 20px;
   margin-bottom: 28px;
 }
-.admin-section h3 { margin-bottom: 20px; font-size:0.95rem; }
-
-/* Layout: tabla izquierda + logos derecha */
-.admin-inner { display: grid; grid-template-columns: 1fr 220px; gap: 24px; align-items: start; }
-
-/* Formulario: 4 campos en fila + botón */
+.admin-section h3 {
+  margin-bottom: 16px;
+}
+.admin-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 18px;
+  align-items: start;
+}
+.admin-main {
+  min-width: 0;
+}
 .user-form {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 160px auto;
-  gap: 10px;
-  margin-bottom: 16px;
+  grid-template-columns: 1.35fr 1fr 1fr 0.95fr auto;
+  gap: 12px;
+  margin-bottom: 20px;
   align-items: center;
 }
 .user-form input, .user-form select {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.12);
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
   padding: 10px 14px;
   border-radius: 40px;
+  color: white;
+  min-width: 0;
+}
+.user-form select {
+  color-scheme: dark;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(255,255,255,0.85) 50%),
+    linear-gradient(135deg, rgba(255,255,255,0.85) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) calc(50% - 3px),
+    calc(100% - 12px) calc(50% - 3px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 34px;
+}
+.user-form select option {
+  background: #1e2535;
   color: #e2e8f0;
-  font-family: 'Inter',sans-serif;
-  font-size: 0.82rem;
+}
+.user-list {
+  overflow-x: auto;
+}
+.user-list table {
   width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
 }
-.user-form input::placeholder { color: #475569; }
-/* Fix select dropdown oscuro */
-.user-form select { appearance: auto; cursor: pointer; }
-.user-form select option { background: #1e293b; color: #e2e8f0; }
-
-/* Tabla de usuarios */
-.user-list table { width:100%; border-collapse:collapse; }
-.user-list th {
-  text-align:left; padding:9px 10px;
-  font-size:0.65rem; text-transform:uppercase; letter-spacing:0.8px;
-  color:#475569; border-bottom:1px solid rgba(255,255,255,0.08);
+.user-list th, .user-list td {
+  text-align: left;
+  padding: 10px 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  vertical-align: middle;
 }
-.user-list td {
-  padding:10px 10px; font-size:0.8rem; color:#cbd5e1;
-  border-bottom:1px solid rgba(255,255,255,0.04);
-  vertical-align:middle;
+.user-list th:nth-child(1), .user-list td:nth-child(1) { width: 34%; }
+.user-list th:nth-child(2), .user-list td:nth-child(2) { width: 20%; }
+.user-list th:nth-child(3), .user-list td:nth-child(3) { width: 22%; }
+.user-list th:nth-child(4), .user-list td:nth-child(4) { width: 14%; }
+.user-list th:nth-child(5), .user-list td:nth-child(5) { width: 10%; text-align: right; }
+.user-password-text {
+  display: inline-block;
+  font-family: 'Inter','Segoe UI',sans-serif;
+  letter-spacing: 0.2px;
+  color: #e2e8f0;
 }
-.user-list tr:last-child td { border-bottom:none; }
-
-/* Columna contraseña — pill oscuro */
-.pwd-pill {
-  font-family: monospace; font-size:0.75rem;
-  background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1);
-  padding:3px 10px; border-radius:20px; color:#94a3b8;
-  letter-spacing:0.5px;
+.admin-logos-panel {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 14px;
 }
-
+.admin-logos-panel h4 {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #cbd5e1;
+  margin-bottom: 12px;
+}
+.admin-logos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.admin-logo-card {
+  min-height: 88px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 8px;
+  text-align: center;
+}
+.admin-logo-card img {
+  max-width: 58px;
+  max-height: 42px;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+.admin-logo-card span {
+  font-size: 0.66rem;
+  line-height: 1.2;
+  color: #cbd5e1;
+  word-break: break-word;
+}
+.admin-logo-empty {
+  font-size: 0.72rem;
+  color: #64748b;
+}
 .delete-user-btn {
-  background: rgba(220,38,38,0.15);
-  border: 1px solid rgba(220,38,38,0.2);
-  padding: 4px 12px; border-radius:30px;
-  color:#fca5a5; cursor:pointer; font-size:0.72rem;
-  transition: background 0.2s;
+  background: rgba(220,38,38,0.2);
+  border: none;
+  padding: 4px 12px;
+  border-radius: 30px;
+  color: #fca5a5;
+  cursor: pointer;
 }
-.delete-user-btn:hover { background:rgba(220,38,38,0.3); }
-
-/* Panel lateral de logos del sistema */
-.logos-panel {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 16px; padding:16px;
+@media (max-width: 1080px) {
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+  .user-form {
+    grid-template-columns: 1fr 1fr;
+  }
 }
-.logos-panel h4 {
-  font-size:0.62rem; text-transform:uppercase; letter-spacing:1px;
-  color:#475569; margin-bottom:14px; font-weight:700;
+@media (max-width: 720px) {
+  .user-form {
+    grid-template-columns: 1fr;
+  }
 }
-.logo-item {
-  display:flex; align-items:center; gap:10px;
-  padding:8px 10px; border-radius:10px;
-  border:1px solid rgba(255,255,255,0.06);
-  margin-bottom:8px; background:rgba(255,255,255,0.02);
-}
-.logo-item img { width:36px; height:28px; object-fit:contain; }
-.logo-item span { font-size:0.72rem; color:#94a3b8; font-weight:600; }
-.logo-bank-item {
-  display:flex; align-items:center; gap:10px;
-  padding:6px 10px; border-radius:10px;
-  border:1px solid rgba(255,255,255,0.06);
-  margin-bottom:6px; background:rgba(255,255,255,0.02);
-}
-.logo-bank-item img { width:28px; height:28px; object-fit:contain; }
-.logo-bank-item span { font-size:0.7rem; color:#64748b; }
-.logos-divider { font-size:0.58rem; color:#334155; text-transform:uppercase;
-  letter-spacing:1px; margin:10px 0 8px; font-weight:700; }
 
 .pg-wrap {
   min-height: 100vh;
@@ -355,11 +406,11 @@ body {
 /* Temas con logos en tarjetas */
 .tema-egida, .tema-labase, .tema-finacorp { border-radius:24px; overflow:hidden; width:560px; }
 .tema-egida { background:#08080f; color:#fff; }
-.tema-labase { background:#0a0a0a; color:#fff; }
+.tema-labase { background:#f5c800; color:#1a1a1a; }
 .tema-finacorp { background:#fff; color:#1a1a2e; }
 
 .tema-egida .infografia-header { background:linear-gradient(160deg,#08080f 0%,#111121 100%); padding:32px 28px 24px; text-align:center; border-bottom:1px solid rgba(212,175,55,0.2); }
-.tema-labase .infografia-header { background:#000; padding:32px 28px 24px; text-align:center; border-bottom:1px solid rgba(255,140,0,0.2); }
+.tema-labase .infografia-header { background:linear-gradient(160deg,#f5c800 0%,#e6b800 100%); padding:32px 28px 24px; text-align:center; border-bottom:2px solid rgba(0,0,0,0.12); }
 .tema-finacorp .infografia-header { background:linear-gradient(160deg,#0d47a1 0%,#1a73e8 60%,#2196f3 100%); padding:32px 28px 24px; text-align:center; }
 
 .tema-egida .logo-empresa, .tema-labase .logo-empresa { margin:0 auto 16px; width:110px; height:90px; border-radius:0; display:flex; align-items:center; justify-content:center; overflow:visible; background:transparent; }
@@ -367,17 +418,19 @@ body {
 .tema-egida .logo-empresa img, .tema-labase .logo-empresa img { max-width:110px; max-height:90px; object-fit:contain; background:transparent; }
 .tema-finacorp .logo-empresa img { max-width:180px; max-height:70px; object-fit:contain; background:transparent; }
 
-.tema-egida h2, .tema-labase h2 { color:#fff; font-weight:800; font-size:1.35rem; }
+.tema-egida h2 { color:#fff; font-weight:800; font-size:1.35rem; }
+.tema-labase h2 { color:#1a1a1a; font-weight:900; font-size:1.35rem; }
 .tema-finacorp h2 { color:#fff; font-weight:800; font-size:1.35rem; }
 .tema-egida .subtitulo { color:#d4af37; font-size:0.67rem; text-transform:uppercase; letter-spacing:2.5px; margin-top:7px; }
-.tema-labase .subtitulo { color:#ff8c00; font-size:0.67rem; text-transform:uppercase; letter-spacing:2.5px; margin-top:7px; }
+.tema-labase .subtitulo { color:#333; font-size:0.67rem; text-transform:uppercase; letter-spacing:2.5px; margin-top:7px; }
 .tema-finacorp .subtitulo { color:rgba(255,255,255,0.75); font-size:0.67rem; text-transform:uppercase; letter-spacing:2px; margin-top:7px; }
 
-.tema-egida .info-body, .tema-labase .info-body { padding:24px 26px; }
+.tema-egida .info-body { padding:24px 26px; }
+.tema-labase .info-body { padding:24px 26px; background:#fff8dc; }
 .tema-finacorp .info-body { padding:24px 26px; background:#fff; }
 
 .tema-egida .cuentas-titulo { display:flex; align-items:center; gap:8px; color:#d4af37; font-weight:700; font-size:0.73rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:16px; padding-bottom:9px; border-bottom:1px solid rgba(212,175,55,0.15); }
-.tema-labase .cuentas-titulo { display:flex; align-items:center; gap:8px; color:#ff8c00; font-weight:700; font-size:0.73rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:16px; padding-bottom:9px; border-bottom:1px solid rgba(255,140,0,0.15); }
+.tema-labase .cuentas-titulo { display:flex; align-items:center; gap:8px; color:#1a1a1a; font-weight:700; font-size:0.73rem; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:16px; padding-bottom:9px; border-bottom:2px solid rgba(0,0,0,0.15); }
 .tema-finacorp .cuentas-titulo { display:flex; align-items:center; gap:8px; color:#1a73e8; font-weight:700; font-size:0.73rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; padding-bottom:9px; border-bottom:2px solid #e8f0fd; }
 
 .tema-egida .cuenta-card, .tema-labase .cuenta-card, .tema-finacorp .cuenta-card {
@@ -385,14 +438,14 @@ body {
   display: flex; gap: 14px; align-items: center;
 }
 .tema-egida .cuenta-card { background:linear-gradient(135deg,#111121,#0e0e1c); border:1px solid rgba(212,175,55,0.12); }
-.tema-labase .cuenta-card { background:#111; border:1px solid rgba(255,140,0,0.1); }
+.tema-labase .cuenta-card { background:#fff; border:1px solid rgba(0,0,0,0.1); }
 .tema-finacorp .cuenta-card { background:#f8faff; border:1px solid #ddeafc; }
 
 .tema-egida .cuenta-card::before, .tema-labase .cuenta-card::before, .tema-finacorp .cuenta-card::before {
   content:''; position:absolute; left:0; top:0; bottom:0; width:3px;
 }
 .tema-egida .cuenta-card::before { background:linear-gradient(180deg,#d4af37,#b8963e); }
-.tema-labase .cuenta-card::before { background:linear-gradient(180deg,#ff8c00,#cc7000); }
+.tema-labase .cuenta-card::before { background:linear-gradient(180deg,#1a1a1a,#333); }
 .tema-finacorp .cuenta-card::before { background:linear-gradient(180deg,#1a73e8,#0d47a1); }
 
 .tema-egida .cuenta-card img, .tema-labase .cuenta-card img, .tema-finacorp .cuenta-card img {
@@ -400,28 +453,97 @@ body {
 }
 .tema-egida .cuenta-info, .tema-labase .cuenta-info, .tema-finacorp .cuenta-info { flex:1; }
 .tema-egida .cuenta-banco { color:#d4af37; font-weight:800; font-size:0.86rem; margin-bottom:6px; }
-.tema-labase .cuenta-banco { color:#ff8c00; font-weight:800; font-size:0.86rem; margin-bottom:6px; }
+.tema-labase .cuenta-banco { color:#1a1a1a; font-weight:800; font-size:0.86rem; margin-bottom:6px; }
 .tema-finacorp .cuenta-banco { color:#1a73e8; font-weight:800; font-size:0.86rem; margin-bottom:6px; }
 
 .tema-egida .cuenta-detalle, .tema-labase .cuenta-detalle, .tema-finacorp .cuenta-detalle {
   font-size:0.66rem; display:grid; grid-template-columns:1fr 1fr; gap:5px;
 }
-.tema-egida .cuenta-detalle span, .tema-labase .cuenta-detalle span { background:rgba(255,255,255,0.04); padding:5px 8px; border-radius:7px; }
+.tema-egida .cuenta-detalle span { background:rgba(255,255,255,0.04); padding:5px 8px; border-radius:7px; }
+.tema-labase .cuenta-detalle span { background:rgba(0,0,0,0.04); padding:5px 8px; border-radius:7px; color:#1a1a1a; }
 .tema-finacorp .cuenta-detalle span { background:rgba(26,115,232,0.05); padding:5px 8px; border-radius:7px; }
-.tema-egida .cuenta-detalle span strong, .tema-labase .cuenta-detalle span strong { color:#a0a0b8; display:block; font-size:0.58rem; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:1px; }
+.tema-egida .cuenta-detalle span strong { color:#a0a0b8; display:block; font-size:0.58rem; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:1px; }
+.tema-labase .cuenta-detalle span strong { color:#666; display:block; font-size:0.58rem; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:1px; }
 .tema-finacorp .cuenta-detalle span strong { color:#1a73e8; display:block; font-size:0.58rem; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:1px; }
 
 .tema-egida .obs-tag { color:#d4af37; font-size:0.63rem; padding:4px 9px; background:rgba(212,175,55,0.08); border-radius:7px; margin-top:7px; border-left:2px solid #d4af37; }
-.tema-labase .obs-tag { color:#ff8c00; font-size:0.63rem; padding:4px 9px; background:rgba(255,140,0,0.08); border-radius:7px; margin-top:7px; border-left:2px solid #ff8c00; }
+.tema-labase .obs-tag { color:#1a1a1a; font-size:0.63rem; padding:4px 9px; background:rgba(0,0,0,0.07); border-radius:7px; margin-top:7px; border-left:2px solid #1a1a1a; }
 .tema-finacorp .obs-tag { color:#1a73e8; font-size:0.63rem; padding:4px 9px; background:rgba(26,115,232,0.07); border-radius:7px; margin-top:7px; border-left:2px solid #1a73e8; }
 
 .tema-egida .infografia-footer { background:#050508; text-align:center; padding:12px; color:#44445a; font-size:0.6rem; border-top:1px solid rgba(212,175,55,0.1); }
-.tema-labase .infografia-footer { background:#050505; text-align:center; padding:12px; color:#444; font-size:0.6rem; border-top:1px solid rgba(255,140,0,0.1); }
+.tema-labase .infografia-footer { background:#e6b800; text-align:center; padding:12px; color:#333; font-size:0.6rem; border-top:1px solid rgba(0,0,0,0.1); }
 .tema-finacorp .infografia-footer { background:#f0f4fe; text-align:center; padding:12px; color:#8b9bb8; font-size:0.6rem; border-top:1px solid #ddeafc; }
 
 .tema-egida .cuenta-titular-label { color: #e2e8f0; font-size: 0.72rem; font-weight: 600; margin-bottom: 6px; opacity: 0.85; }
-.tema-labase .cuenta-titular-label { color: #e2e8f0; font-size: 0.72rem; font-weight: 600; margin-bottom: 6px; opacity: 0.85; }
+.tema-labase .cuenta-titular-label { color: #333; font-size: 0.72rem; font-weight: 600; margin-bottom: 6px; opacity: 0.85; }
 .tema-finacorp .cuenta-titular-label { color: #334155; font-size: 0.72rem; font-weight: 600; margin-bottom: 6px; }
+
+/* ── Gestor de bancos personalizados ── */
+.bancos-manager {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 24px;
+  padding: 20px;
+  margin-bottom: 28px;
+}
+.bancos-manager h3 { margin-bottom: 16px; font-size: 0.9rem; color: #cbd5e1; }
+.banco-upload-form {
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin-bottom: 16px;
+}
+.banco-upload-form input[type="text"] {
+  flex: 1; min-width: 130px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 9px 13px; border-radius: 40px;
+  color: white; font-family: 'Inter',sans-serif; font-size: 0.8rem;
+}
+.banco-upload-form input[type="text"]::placeholder { color: #475569; }
+.banco-upload-label {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.05);
+  border: 1px dashed rgba(255,255,255,0.2);
+  padding: 9px 14px; border-radius: 40px;
+  color: #94a3b8; font-size: 0.78rem; cursor: pointer;
+  transition: background 0.2s;
+}
+.banco-upload-label:hover { background: rgba(255,255,255,0.1); }
+.banco-upload-label input { display: none; }
+#bancoPreviewImg {
+  width: 36px; height: 36px; object-fit: contain;
+  border-radius: 6px; background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  display: none;
+}
+.btn-agregar-banco {
+  background: rgba(124,106,247,0.15);
+  border: 1px solid rgba(124,106,247,0.3);
+  padding: 9px 18px; border-radius: 30px;
+  font-size: 0.75rem; font-weight: 700;
+  cursor: pointer; color: #a78bfa;
+  transition: background 0.2s; white-space: nowrap;
+}
+.btn-agregar-banco:hover { background: rgba(124,106,247,0.25); }
+.bancos-custom-list {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px;
+}
+.banco-custom-chip {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 30px; padding: 5px 10px 5px 8px;
+  font-size: 0.72rem; color: #cbd5e1;
+}
+.banco-custom-chip img {
+  width: 22px; height: 22px; object-fit: contain; border-radius: 4px;
+}
+.banco-chip-del {
+  background: rgba(220,38,38,0.2); border: none;
+  width: 18px; height: 18px; border-radius: 50%;
+  cursor: pointer; font-size: 0.6rem; color: #fca5a5;
+  display: flex; align-items: center; justify-content: center;
+  margin-left: 2px;
+}
+.banco-chip-del:hover { background: rgba(220,38,38,0.4); }
 </style>
 </head>
 <body>
@@ -468,21 +590,20 @@ body {
     <div id="adminPanel" style="display: none;">
       <div class="admin-section">
         <h3>👥 Administración de Usuarios</h3>
-        <div class="admin-inner">
-          <!-- Columna izquierda: form + tabla -->
-          <div>
+        <div class="admin-layout">
+          <div class="admin-main">
             <div class="user-form">
               <input type="text" id="newFullname" placeholder="Nombre completo">
-              <input type="text" id="newUsername" placeholder="Usuario (ID)">
+              <input type="text" id="newUsername" placeholder="Usuario">
               <input type="password" id="newPassword" placeholder="Contraseña">
               <select id="newRole">
                 <option value="USUARIO">USUARIO</option>
                 <option value="ADMIN">ADMIN</option>
               </select>
-              <button id="createUserBtn" style="background:linear-gradient(135deg,#7c6af7,#5b4fcf);border:none;padding:10px 18px;border-radius:40px;color:#fff;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;white-space:nowrap;">➕ Crear</button>
+              <button id="createUserBtn" style="background:#7c6af7; border:none; padding:0 18px; border-radius:40px; height:42px;">➕ Crear</button>
             </div>
             <div class="user-list">
-              <table>
+              <table style="width:100%">
                 <thead>
                   <tr>
                     <th>Nombre</th>
@@ -496,16 +617,30 @@ body {
               </table>
             </div>
           </div>
-          <!-- Columna derecha: logos del sistema -->
-          <div class="logos-panel" id="logosPanel">
-            <h4>🖼 Logos del sistema</h4>
-            <div class="logos-divider">Empresas</div>
-            <div id="logoEmpresasList"></div>
-            <div class="logos-divider" style="margin-top:12px;">Bancos</div>
-            <div id="logoBancosList"></div>
-          </div>
+
+          <aside class="admin-logos-panel">
+            <h4>🖼 Logos subidos</h4>
+            <div class="admin-logos-grid" id="adminLogosGrid">
+              <div class="admin-logo-empty">Sin logos subidos aún.</div>
+            </div>
+          </aside>
         </div>
       </div>
+    </div>
+
+    <!-- ── Gestor de bancos personalizados ── -->
+    <div class="bancos-manager">
+      <h3>🏦 Bancos Personalizados</h3>
+      <div class="banco-upload-form">
+        <input type="text" id="bancoNombreInput" placeholder="Nombre del banco (ej: Scotiabank)">
+        <label class="banco-upload-label">
+          📁 Subir logo
+          <input type="file" id="bancoLogoInput" accept="image/*">
+        </label>
+        <img id="bancoPreviewImg" src="" alt="preview">
+        <button class="btn-agregar-banco" id="btnAgregarBanco">➕ Agregar banco</button>
+      </div>
+      <div class="bancos-custom-list" id="bancosCustomList"></div>
     </div>
 
     <div class="pg-dashboard">
@@ -539,7 +674,131 @@ body {
 </div>
 
 <script>
-// ======================= BANCOS CON LOGOS =======================
+// ======================= BANCOS PERSONALIZADOS =======================
+// Se guardan en localStorage para persistir entre sesiones
+let bancosCustom = JSON.parse(localStorage.getItem('bancosCustom') || '[]');
+// { nombre: "Scotiabank", key: "scotiabank", logo: "data:..." }
+
+function saveBancosCustom() {
+  localStorage.setItem('bancosCustom', JSON.stringify(bancosCustom));
+}
+
+function getBankLogoCustom(nombre) {
+  if (!nombre || !bancosCustom.length) return null;
+  const k = nombre.toLowerCase().trim();
+
+  // 1. Coincidencia exacta
+  let found = bancosCustom.find(b => b.nombre.toLowerCase().trim() === k);
+  if (found) return found.logo;
+
+  // 2. El nombre del campo contiene el nombre registrado (o viceversa)
+  found = bancosCustom.find(b => {
+    const bNom = b.nombre.toLowerCase().trim();
+    return k.includes(bNom) || bNom.includes(k);
+  });
+  if (found) return found.logo;
+
+  // 3. Coincidencia por palabras: si todas las palabras del nombre registrado
+  //    están presentes en lo que se escribe (o viceversa)
+  found = bancosCustom.find(b => {
+    const palabrasRegistradas = b.nombre.toLowerCase().trim().split(/\s+/).filter(p => p.length > 2);
+    const palabrasEscritas    = k.split(/\s+/).filter(p => p.length > 2);
+    if (!palabrasRegistradas.length || !palabrasEscritas.length) return false;
+    return palabrasRegistradas.every(p => palabrasEscritas.some(e => e.includes(p) || p.includes(e))) ||
+           palabrasEscritas.every(p => palabrasRegistradas.some(r => r.includes(p) || p.includes(r)));
+  });
+  return found ? found.logo : null;
+}
+
+function renderBancosCustomList() {
+  const container = document.getElementById('bancosCustomList');
+  if (!bancosCustom.length) {
+    container.innerHTML = '<span style="color:#475569;font-size:0.72rem;">Sin bancos personalizados aún.</span>';
+    return;
+  }
+  container.innerHTML = bancosCustom.map((b, i) => `
+    <div class="banco-custom-chip">
+      <img src="${b.logo}" alt="${b.nombre}">
+      <span>${b.nombre}</span>
+      <button class="banco-chip-del" data-idx="${i}" title="Eliminar">✕</button>
+    </div>
+  `).join('');
+  container.querySelectorAll('.banco-chip-del').forEach(btn => {
+    btn.addEventListener('click', () => {
+      bancosCustom.splice(parseInt(btn.dataset.idx), 1);
+      saveBancosCustom();
+      renderBancosCustomList();
+      renderInfografia();
+    });
+  });
+}
+
+
+function renderAdminLogosPanel() {
+  const grid = document.getElementById('adminLogosGrid');
+  if (!grid) return;
+
+  if (!bancosCustom.length) {
+    grid.innerHTML = '<div class="admin-logo-empty">Sin logos subidos aún.</div>';
+    return;
+  }
+
+  grid.innerHTML = bancosCustom.map(b => `
+    <div class="admin-logo-card">
+      <img src="${b.logo}" alt="${b.nombre}">
+      <span>${b.nombre}</span>
+    </div>
+  `).join('');
+}
+
+// Preview de imagen al seleccionar
+document.getElementById('bancoLogoInput').addEventListener('change', function() {
+  const file = this.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = document.getElementById('bancoPreviewImg');
+    img.src = e.target.result;
+    img.style.display = 'inline-block';
+  };
+  reader.readAsDataURL(file);
+});
+
+// Agregar banco
+document.getElementById('btnAgregarBanco').addEventListener('click', () => {
+  const nombre = document.getElementById('bancoNombreInput').value.trim();
+  const logoInput = document.getElementById('bancoLogoInput');
+  const previewImg = document.getElementById('bancoPreviewImg');
+
+  if (!nombre) { alert('Escribe el nombre del banco.'); return; }
+  if (!previewImg.src || previewImg.style.display === 'none') {
+    alert('Selecciona un logo para el banco.'); return;
+  }
+
+  const key = nombre.toLowerCase().replace(/\s+/g, '');
+  // Evitar duplicados
+  if (bancosCustom.find(b => b.key === key)) {
+    alert('Ya existe un banco con ese nombre.'); return;
+  }
+
+  bancosCustom.push({ nombre, key, logo: previewImg.src });
+  saveBancosCustom();
+  renderBancosCustomList();
+  renderAdminLogosPanel();
+  renderInfografia();
+
+  // Limpiar form
+  document.getElementById('bancoNombreInput').value = '';
+  logoInput.value = '';
+  previewImg.src = '';
+  previewImg.style.display = 'none';
+});
+
+// Inicializar lista al cargar
+renderBancosCustomList();
+renderAdminLogosPanel();
+
+
 const bancosMap = {
   "bcp":       { nombre: "BCP",           logo: "data:image/png;base64,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" },
   "interbank": { nombre: "Interbank",     logo: "data:image/png;base64,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" },
@@ -548,6 +807,11 @@ const bancosMap = {
 };
 
 function getBankLogo(bankName) {
+  // Primero buscar en bancos personalizados
+  const custom = getBankLogoCustom(bankName);
+  if (custom) return custom;
+
+  // Luego en predefinidos
   const k = bankName.toLowerCase();
   if (k.includes("bcp"))                          return bancosMap["bcp"].logo;
   if (k.includes("interbank"))                    return bancosMap["interbank"].logo;
@@ -568,10 +832,12 @@ function escapeHtml(str) {
   return str.replace(/[&<>]/g, m => m==='&'?'&amp;':m==='<'?'&lt;':'&gt;');
 }
 
-// Llama al Apps Script con un objeto de acción
+// Llama al Apps Script con POST (evita CORS)
 async function gasCall(payload) {
-  const url = GAS_URL + "?data=" + encodeURIComponent(JSON.stringify(payload));
-  const res  = await fetch(url);
+  const res = await fetch(GAS_URL, {
+    method: "POST",
+    body: JSON.stringify(payload)
+  });
   if (!res.ok) throw new Error("Error HTTP " + res.status);
   return res.json();
 }
@@ -586,22 +852,21 @@ async function loadAndRenderUserTable() {
     usersCache = data.users || [];
     renderUserTable();
   } catch(e) {
-    tbody.innerHTML = `<tr><td colspan="4" style="color:#f87171;">Error al cargar usuarios</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="5" style="color:#f87171;">Error al cargar usuarios</td></tr>`;
   }
 }
 
 function renderUserTable() {
   const tbody = document.getElementById("userTableBody");
   if (!tbody) return;
-  tbody.innerHTML = usersCache.map((u) => `
+  tbody.innerHTML = usersCache.map((u, idx) => `
     <tr>
       <td>${escapeHtml(u.fullname)}</td>
       <td>${escapeHtml(u.username)}</td>
-      <td><span class="pwd-pill">${escapeHtml(u.password || "••••••")}</span></td>
       <td>${u.role}</td>
       <td><button class="delete-user-btn" data-username="${escapeHtml(u.username)}">Eliminar</button></td>
     </tr>
-  `).join("") || `<tr><td colspan="5" style="color:#64748b;padding:12px;">Sin usuarios</td></tr>`;
+  `).join("") || `<tr><td colspan="4" style="color:#64748b;">Sin usuarios</td></tr>`;
 
   document.querySelectorAll(".delete-user-btn").forEach(btn => {
     btn.addEventListener("click", async () => {
@@ -709,10 +974,18 @@ function doLogout() {
 }
 
 // ======================= EDITOR DE CUENTAS =======================
+function getBancosDatalist() {
+  // Bancos predefinidos + personalizados para el datalist
+  const predefinidos = ["BCP", "Interbank", "Yape", "Caja Huancayo", "BBVA", "Scotiabank", "BanBif", "Banco de la Nacion", "Mibanco", "Pichincha"];
+  const custom = bancosCustom.map(b => b.nombre);
+  const todos = [...new Set([...predefinidos, ...custom])];
+  return `<datalist id="bancosSugeridos">${todos.map(b => `<option value="${b}">`).join('')}</datalist>`;
+}
+
 function renderCuentasEditor() {
   const empresa = empresasState[empresaActual];
   const container = document.getElementById("cuentasEditor");
-  container.innerHTML = "";
+  container.innerHTML = getBancosDatalist();
 
   empresa.cuentas.forEach((c, idx) => {
     const div = document.createElement("div");
@@ -722,7 +995,7 @@ function renderCuentasEditor() {
       <div class="grid-cuenta-editor">
         <div class="field-small">
           <label>Banco</label>
-          <input type="text" data-field="banco" data-idx="${idx}" value="${escapeHtml(c.banco)}">
+          <input type="text" list="bancosSugeridos" data-field="banco" data-idx="${idx}" value="${escapeHtml(c.banco)}" placeholder="Escribe o elige un banco">
         </div>
         <div class="field-small">
           <label>Tipo</label>
@@ -753,15 +1026,17 @@ function renderCuentasEditor() {
     container.appendChild(div);
   });
 
-  // Listeners inputs
+  // Listeners inputs — actualiza infografía en tiempo real
   container.querySelectorAll("input, textarea").forEach(el => {
-    el.addEventListener("input", (e) => {
+    const actualizar = (e) => {
       const idx = parseInt(e.target.dataset.idx);
       const field = e.target.dataset.field;
       empresasState[empresaActual].cuentas[idx][field] = e.target.value;
       renderInfografia();
       updateStats();
-    });
+    };
+    el.addEventListener("input",  actualizar);
+    el.addEventListener("change", actualizar); // captura selección del datalist
   });
 
   // Listeners eliminar
@@ -925,46 +1200,12 @@ document.getElementById("agregarCuentaBtn").addEventListener("click", () => {
   updateStats();
 });
 
-// ======================= LOGOS PANEL =======================
-function renderLogosPanel() {
-  // Empresas
-  const empresasEl = document.getElementById("logoEmpresasList");
-  const bancosEl   = document.getElementById("logoBancosList");
-  if (!empresasEl || !bancosEl) return;
-
-  const empresas = [
-    { key: "egida",    label: "Egida Jurídica" },
-    { key: "labase",   label: "La Base Cowork" },
-    { key: "finacorp", label: "Finacorp" }
-  ];
-  empresasEl.innerHTML = empresas.map(e => `
-    <div class="logo-item">
-      <img src="${LOGOS[e.key]}" alt="${e.label}">
-      <span>${e.label}</span>
-    </div>
-  `).join("");
-
-  const bancos = [
-    { key: "bcp",       label: "BCP" },
-    { key: "interbank", label: "Interbank" },
-    { key: "yape",      label: "Yape" },
-    { key: "caja",      label: "Caja Huancayo" }
-  ];
-  bancosEl.innerHTML = bancos.map(b => `
-    <div class="logo-bank-item">
-      <img src="${bancosMap[b.key].logo}" alt="${b.label}">
-      <span>${b.label}</span>
-    </div>
-  `).join("");
-}
-
 // ======================= INIT =======================
 function initApp() {
   renderBadges();
   renderCuentasEditor();
   renderInfografia();
   updateStats();
-  renderLogosPanel();
 }
 
 </script>
