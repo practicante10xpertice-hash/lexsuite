@@ -633,11 +633,14 @@ body {
 <script>
 // ======================= BANCOS PERSONALIZADOS =======================
 // Se guardan en localStorage para persistir entre sesiones
-let bancosCustom = JSON.parse(localStorage.getItem('bancosCustom') || '[]');
-// { nombre: "Scotiabank", key: "scotiabank", logo: "data:..." }
+let bancosCustom = [];// { nombre: "Scotiabank", key: "scotiabank", logo: "data:..." }
 
-function saveBancosCustom() {
-  localStorage.setItem('bancosCustom', JSON.stringify(bancosCustom));
+async function saveBancosCustom() {
+  try {
+    await gasCall({ action: "saveLogos", bancos: bancosCustom });
+  } catch(e) {
+    console.error("Error guardando logos:", e);
+  }
 }
 
 function getBankLogoCustom(nombre) {
@@ -681,10 +684,11 @@ function renderBancosCustomList() {
     </div>
   `).join('');
   container.querySelectorAll('.banco-chip-del').forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', async () => {
       bancosCustom.splice(parseInt(btn.dataset.idx), 1);
-      saveBancosCustom();
+      await saveBancosCustom();
       renderBancosCustomList();
+      renderAdminLogosPanel();
       renderInfografia();
     });
   });
@@ -722,7 +726,7 @@ document.getElementById('bancoLogoInput').addEventListener('change', function() 
 });
 
 // Agregar banco
-document.getElementById('btnAgregarBanco').addEventListener('click', () => {
+document.getElementById('btnAgregarBanco').addEventListener('click', async () => {
   const nombre = document.getElementById('bancoNombreInput').value.trim();
   const logoInput = document.getElementById('bancoLogoInput');
   const previewImg = document.getElementById('bancoPreviewImg');
@@ -752,9 +756,20 @@ document.getElementById('btnAgregarBanco').addEventListener('click', () => {
 });
 
 // Inicializar lista al cargar
-renderBancosCustomList();
-renderAdminLogosPanel();
+// DESPUÉS — reemplaza SOLO las llamadas finales sueltas por esto:
+async function cargarLogosYArrancar() {
+  try {
+    const data = await gasCall({ action: "getLogos" });
+    bancosCustom = data.bancos || [];
+  } catch(e) {
+    bancosCustom = [];
+  }
+  renderBancosCustomList();
+  renderAdminLogosPanel();
+  initApp();
+}
 
+cargarLogosYArrancar();
 
 const bancosMap = {
   "bcp":       { nombre: "BCP",           logo: "data:image/png;base64,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" },
