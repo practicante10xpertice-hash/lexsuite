@@ -548,10 +548,12 @@ body {
 </head>
 <body>
 
+
 <div id="appContainer" style="display: block;">
 <div class="pg-wrap">
   <div class="deco-dots"></div>
   <div class="pg-container">
+
     <div class="pg-header">
       <h1>🏛 Infografía de Pago</h1>
       <p>Seleccione una empresa · Cuentas bancarias habilitadas</p>
@@ -574,43 +576,12 @@ body {
 
     <div id="adminPanel" style="display: block;">
       <div class="admin-section">
-        <h3>👥 Administración de Usuarios</h3>
-        <div class="admin-layout">
-          <div class="admin-main">
-            <div class="user-form">
-              <input type="text" id="newFullname" placeholder="Nombre completo">
-              <input type="text" id="newUsername" placeholder="Usuario">
-              <input type="password" id="newPassword" placeholder="Contraseña">
-              <select id="newRole">
-                <option value="" disabled selected>ROL</option>
-                <option value="USUARIO">USUARIO</option>
-                <option value="ADMIN">ADMIN</option>
-              </select>
-              <button id="createUserBtn" style="background:#7c6af7; border:none; padding:0 18px; border-radius:40px; height:42px;">➕ Crear</button>
-            </div>
-            <div class="user-list">
-              <table style="width:100%">
-                <thead>
-                  <tr>
-                    <th>Nombre</th>
-                    <th>Usuario</th>
-                    <th>Contraseña</th>
-                    <th>Rol</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody id="userTableBody"></tbody>
-              </table>
-            </div>
+        <aside class="admin-logos-panel" style="width:100%;">
+          <h4>🖼 Logos subidos</h4>
+          <div class="admin-logos-grid" id="adminLogosGrid">
+            <div class="admin-logo-empty">Sin logos subidos aún.</div>
           </div>
-
-          <aside class="admin-logos-panel">
-            <h4>🖼 Logos subidos</h4>
-            <div class="admin-logos-grid" id="adminLogosGrid">
-              <div class="admin-logo-empty">Sin logos subidos aún.</div>
-            </div>
-          </aside>
-        </div>
+        </aside>
       </div>
     </div>
 
@@ -828,11 +799,11 @@ async function gasCall(payload) {
   return res.json();
 }
 
-// ── Tabla de usuarios ──────────────────────────
+// ── Tabla de usuarios (solo ADMIN) ──────────────────────────
 async function loadAndRenderUserTable() {
   const tbody = document.getElementById("userTableBody");
   if (!tbody) return;
-  tbody.innerHTML = `<tr><td colspan="5" style="color:#64748b;padding:12px;">Cargando...</td></tr>`;
+  tbody.innerHTML = `<tr><td colspan="4" style="color:#64748b;padding:12px;">Cargando...</td></tr>`;
   try {
     const data = await gasCall({ action: "getUsers" });
     usersCache = data.users || [];
@@ -845,32 +816,25 @@ async function loadAndRenderUserTable() {
 function renderUserTable() {
   const tbody = document.getElementById("userTableBody");
   if (!tbody) return;
-
-  tbody.innerHTML = usersCache.map((u) => `
+  tbody.innerHTML = usersCache.map((u, idx) => `
     <tr>
-      <td>${escapeHtml(u.fullname || "")}</td>
-      <td>${escapeHtml(u.username || "")}</td>
-      <td><span class="user-password-text">${escapeHtml(u.password || u.contrasena || u.pass || "—")}</span></td>
-      <td>${escapeHtml(u.role || "USUARIO")}</td>
-      <td><button class="delete-user-btn" data-username="${escapeHtml(u.username || "")}">Eliminar</button></td>
+      <td>${escapeHtml(u.fullname)}</td>
+      <td>${escapeHtml(u.username)}</td>
+      <td>${u.role}</td>
+      <td><button class="delete-user-btn" data-username="${escapeHtml(u.username)}">Eliminar</button></td>
     </tr>
-  `).join("") || `<tr><td colspan="5" style="color:#64748b;">Sin usuarios</td></tr>`;
+  `).join("") || `<tr><td colspan="4" style="color:#64748b;">Sin usuarios</td></tr>`;
 
   document.querySelectorAll(".delete-user-btn").forEach(btn => {
     btn.addEventListener("click", async () => {
       const uname = btn.dataset.username;
-      if (currentUser && uname === currentUser.username) {
-        alert("No puedes eliminarte a ti mismo.");
-        return;
-      }
+      if (uname === currentUser?.username) { alert("No puedes eliminarte a ti mismo."); return; }
       if (!confirm("¿Eliminar usuario " + uname + "?")) return;
       btn.textContent = "...";
       try {
         await gasCall({ action: "deleteUser", username: uname });
         await loadAndRenderUserTable();
-      } catch(e) {
-        alert("Error al eliminar: " + e.message);
-      }
+      } catch(e) { alert("Error al eliminar: " + e.message); }
     });
   });
 }
@@ -916,20 +880,54 @@ const empresasData = {
 let empresasState = JSON.parse(JSON.stringify(empresasData));
 let empresaActual = "egida";
 
-// ======================= ACCESO PÚBLICO SIN LOGIN =======================
-function iniciarSistemaSinLogin() {
-  currentUser = { fullname: "Acceso público", username: "publico", role: "ADMIN" };
+// ======================= LOGIN (Google Sheets) =======================
+async function doLogin() {
+  const username = document.getElementById("loginUser").value.trim();
+  const password = document.getElementById("loginPass").value;
+  const errorEl  = document.getElementById("loginError");
+  const loginBtn = document.getElementById("loginBtn");
 
-  const app = document.getElementById("appContainer");
-  if (app) app.style.display = "block";
+  if (!username || !password) {
+    errorEl.textContent = "Por favor completa todos los campos.";
+    return;
+  }
 
-  const admin = document.getElementById("adminPanel");
-  if (admin) admin.style.display = "block";
+  loginBtn.textContent = "Verificando...";
+  loginBtn.disabled = true;
+  errorEl.textContent = "";
 
-  renderBancosCustomList();
-  renderAdminLogosPanel();
-  loadAndRenderUserTable();
-  initApp();
+  try {
+    const data = await gasCall({ action: "login", username, password });
+    if (data.ok) {
+      currentUser = data.user;
+      document.getElementById("loginContainer").style.display = "none";
+      document.getElementById("appContainer").style.display  = "block";
+      document.getElementById("userInfo").textContent = "👤 " + data.user.fullname + " · " + data.user.role;
+      if (data.user.role === "ADMIN") {
+        document.getElementById("adminPanel").style.display = "block";
+        loadAndRenderUserTable();
+      }
+      initApp();
+    } else {
+      errorEl.textContent = data.error || "Usuario o contraseña incorrectos.";
+      document.getElementById("loginPass").value = "";
+    }
+  } catch(e) {
+    errorEl.textContent = "Error de conexión. Verifica la URL del script.";
+  } finally {
+    loginBtn.textContent = "Iniciar sesión";
+    loginBtn.disabled = false;
+  }
+}
+
+function doLogout() {
+  currentUser = null;
+  document.getElementById("appContainer").style.display  = "none";
+  document.getElementById("loginContainer").style.display = "flex";
+  document.getElementById("loginUser").value = "";
+  document.getElementById("loginPass").value = "";
+  document.getElementById("loginError").textContent = "";
+  document.getElementById("adminPanel").style.display = "none";
 }
 
 // ======================= EDITOR DE CUENTAS =======================
@@ -1103,38 +1101,6 @@ document.getElementById("exportBtn").addEventListener("click", () => {
   });
 });
 
-// ======================= CREAR USUARIO (Google Sheets) =======================
-document.getElementById("createUserBtn").addEventListener("click", async () => {
-  const fn   = document.getElementById("newFullname").value.trim();
-  const un   = document.getElementById("newUsername").value.trim();
-  const pw   = document.getElementById("newPassword").value;
-  const role = document.getElementById("newRole").value;
-  const btn  = document.getElementById("createUserBtn");
-
-  if (!fn || !un || !pw) { alert("Completa todos los campos."); return; }
-
-  btn.textContent = "Guardando...";
-  btn.disabled = true;
-  try {
-    const data = await gasCall({ action: "createUser", fullname: fn, username: un, password: pw, role });
-    if (data.ok) {
-      document.getElementById("newFullname").value = "";
-      document.getElementById("newUsername").value = "";
-      document.getElementById("newPassword").value = "";
-      await loadAndRenderUserTable();
-    } else {
-      alert("Error: " + (data.error || "No se pudo crear el usuario."));
-    }
-  } catch(e) {
-    alert("Error de conexión: " + e.message);
-  } finally {
-    btn.textContent = "➕ Crear";
-    btn.disabled = false;
-  }
-});
-
-// ======================= INICIO AUTOMÁTICO SIN LOGIN =======================
-document.addEventListener("DOMContentLoaded", iniciarSistemaSinLogin);
 
 // ======================= EMPRESA SELECTOR =======================
 document.getElementById("empresaSelector").addEventListener("change", (e) => {
@@ -1162,7 +1128,11 @@ function initApp() {
   renderCuentasEditor();
   renderInfografia();
   updateStats();
+  renderAdminLogosPanel();
 }
+
+// Iniciar sistema directamente, sin login
+initApp();
 
 </script>
 </body>
