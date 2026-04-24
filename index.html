@@ -597,9 +597,9 @@ body {
               <input type="text" id="newUsername" placeholder="Usuario">
               <input type="password" id="newPassword" placeholder="Contraseña">
               <select id="newRole">
-                <option value="" disabled selected>ROL</option>
-                <option value="">USUARIO</option>
-                <option value="ADMIN">ADMIN</option>
+              <option value="" disabled selected>ROL</option>
+              <option value="USUARIO">USUARIO</option>
+              <option value="ADMIN">ADMIN</option>
               </select>
               <button id="createUserBtn" style="background:#7c6af7; border:none; padding:0 18px; border-radius:40px; height:42px;">➕ Crear</button>
             </div>
@@ -844,17 +844,46 @@ async function gasCall(payload) {
 }
 
 // ── Tabla de usuarios (solo ADMIN) ──────────────────────────
-async function loadAndRenderUserTable() {
+function renderUserTable() {
   const tbody = document.getElementById("userTableBody");
   if (!tbody) return;
-  tbody.innerHTML = `<tr><td colspan="4" style="color:#64748b;padding:12px;">Cargando...</td></tr>`;
-  try {
-    const data = await gasCall({ action: "getUsers" });
-    usersCache = data.users || [];
-    renderUserTable();
-  } catch(e) {
-    tbody.innerHTML = `<tr><td colspan="5" style="color:#f87171;">Error al cargar usuarios</td></tr>`;
-  }
+
+  tbody.innerHTML = usersCache.map((u) => `
+    <tr>
+      <td>${escapeHtml(u.fullname || "")}</td>
+      <td>${escapeHtml(u.username || "")}</td>
+      <td>
+        <span class="user-password-text">
+          ${escapeHtml(u.password || u.contrasena || u.pass || "—")}
+        </span>
+      </td>
+      <td>${escapeHtml(u.role || "USUARIO")}</td>
+      <td>
+        <button class="delete-user-btn" data-username="${escapeHtml(u.username || "")}">
+          Eliminar
+        </button>
+      </td>
+    </tr>
+  `).join("") || `<tr><td colspan="5" style="color:#64748b;">Sin usuarios</td></tr>`;
+
+  document.querySelectorAll(".delete-user-btn").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const uname = btn.dataset.username;
+      if (uname === currentUser?.username) {
+        alert("No puedes eliminarte a ti mismo.");
+        return;
+      }
+      if (!confirm("¿Eliminar usuario " + uname + "?")) return;
+
+      btn.textContent = ".";
+      try {
+        await gasCall({ action: "deleteUser", username: uname });
+        await loadAndRenderUserTable();
+      } catch(e) {
+        alert("Error al eliminar: " + e.message);
+      }
+    });
+  });
 }
 
 function renderUserTable() {
