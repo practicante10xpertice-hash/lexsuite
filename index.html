@@ -499,7 +499,6 @@ function renderInfografia() {
   const cuentasHTML = empresa.cuentas.map(c => {
     const logoSrc = getBankLogo(c.banco);
     const obsHTML = c.observacion ? `<div class="obs-tag">📌 ${escapeHtml(c.observacion)}</div>` : "";
-    const cciHTML = c.cci ? `<span style="grid-column:1/-1"><strong>CCI</strong>${escapeHtml(c.cci)}</span>` : "";
     return `
       <div class="cuenta-card">
         <img src="${logoSrc}" alt="${escapeHtml(c.banco)}" style="width:44px;height:44px;object-fit:contain;">
@@ -509,8 +508,8 @@ function renderInfografia() {
           <div class="cuenta-detalle">
             <span><strong>Tipo</strong>${escapeHtml(c.tipo)}</span>
             <span><strong>Moneda</strong>${escapeHtml(c.moneda)}</span>
-            ${c.numero ? `<span style="grid-column:1/-1"><strong>N° Cuenta</strong>${escapeHtml(c.numero)}</span>` : ""}
-            ${cciHTML}
+            ${c.numero ? `<span><strong>N° Cuenta</strong>${escapeHtml(c.numero)}</span>` : ""}
+            ${c.cci ? `<span><strong>CCI</strong>${escapeHtml(c.cci)}</span>` : ""}
           </div>
           ${obsHTML}
         </div>
